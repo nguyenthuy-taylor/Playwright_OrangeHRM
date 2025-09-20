@@ -5,7 +5,7 @@ pipeline {
     choice(
       name: 'TARGET_ENV',
       choices: ['local', 'staging', 'prod'],
-      description: 'Chọn môi trường test'
+      description: 'Select environment to run test'
     )
   }
 
