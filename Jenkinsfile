@@ -1,12 +1,20 @@
 pipeline {
   agent any
 
+  parameters {
+    choice(
+      name: 'TARGET_ENV',
+      choices: ['local', 'staging', 'prod'],
+      description: 'Chọn môi trường test'
+    )
+  }
+
   tools {
-    nodejs "NodeJS 18" // Cấu hình trong Jenkins → Manage Jenkins → Global Tool Configuration
+    nodejs "NodeJS 18"
   }
 
   environment {
-    PLAYWRIGHT_BROWSERS_PATH = "0" // Cài trình duyệt vào node_modules để Jenkins dùng được
+    PLAYWRIGHT_BROWSERS_PATH = "0"
   }
 
   stages {
@@ -16,19 +24,28 @@ pipeline {
       }
     }
 
-stage('Install Playwright Browsers') {
-  steps {
-    bat '''
-      set PLAYWRIGHT_BROWSERS_PATH=0
-      npx playwright install
-    '''
-  }
-}
-
+    stage('Install Playwright Browsers') {
+      steps {
+        bat '''
+          set PLAYWRIGHT_BROWSERS_PATH=0
+          npx playwright install
+        '''
+      }
+    }
 
     stage('Run Regression Tests') {
       steps {
-        sh 'npm run regression'
+        script {
+          def url = ""
+          if (params.TARGET_ENV == "local") {
+            url = "http://localhost/orangehrm/web/index.php/auth/login"
+          } else if (params.TARGET_ENV == "staging") {
+            url = "http://localhost/orangehrm/web/index.php/auth/login"
+          } else {
+            url = "http://prod-server.company.com"
+          }
+          sh "BASE_URL=${url} npm run regression"
+        }
       }
     }
 
