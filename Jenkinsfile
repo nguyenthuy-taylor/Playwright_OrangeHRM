@@ -48,9 +48,9 @@ pipeline {
       }
     }
 
-    stage('Publibat HTML Report') {
+    stage('Publish HTML Report') {
       steps {
-        bat 'npx playwright show-report'
+        archiveArtifacts artifacts: 'playwright-report/**, allure-results/**', allowEmptyArchive: true
       }
     }
   }
