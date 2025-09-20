@@ -19,7 +19,7 @@ test.describe('Admin Page Tests', () => {
         const userManagementPage = await navigateToUserManagementItem(loggedInPage, 'User Management', userManagamentDropdownItems.USERS);
         await userManagementPage.selectUserRoleOption(userRole[0]);
         await userManagementPage.page.waitForTimeout(2000);
-        await userManagementPage.searchAndSelectAnEmployeeName('chung', 'chung thuy')
+        await userManagementPage.searchAndSelectAnEmployeeName('chung', 'chung thuy failed')
         await userManagementPage.clickToSearchButton();
         expect(await NotificationHelper.isLoadingFired(loggedInPage)).toBeTruthy();
         await userManagementPage.verifyReturnResults(newUserData.userName, newUserData.userRole, newUserData.employeeName, newUserData.status)

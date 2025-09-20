@@ -1,70 +1,71 @@
 pipeline {
-  agent any
+    agent any
 
-  parameters {
-    choice(
-      name: 'TARGET_ENV',
-      choices: ['local', 'staging', 'prod'],
-      description: 'Select environment to run test'
-    )
-  }
-
-  tools {
-    nodejs 'NodeJS 18'
-  }
-
-  environment {
-    PLAYWRIGHT_BROWSERS_PATH = '0'
-  }
-
-  stages {
-    stage('Install Dependencies') {
-      steps {
-        bat 'npm install'
-      }
+    parameters {
+        choice(
+            name: 'TARGET_ENV',
+            choices: ['local', 'staging', 'prod'],
+            description: 'Select environment to run test'
+        )
     }
 
-    stage('Install Playwright Browsers') {
-      steps {
-        bat '''
-          set PLAYWRIGHT_BROWSERS_PATH=0
-          npx playwright install
-        '''
-      }
+    tools {
+        nodejs 'NodeJS 18'
     }
-    stage('Run Regression Tests') {
-      steps {
-        script {
-          def url = ''
-          if (params.TARGET_ENV == 'local') {
-            url = 'http://localhost/orangehrm/web/index.php/auth/login'
-      } else if (params.TARGET_ENV == 'staging') {
-            url = 'http://staging-server.company.com'
-      } else {
-            url = 'http://prod-server.company.com'
-          }
-          bat "npx cross-env BASE_URL=${url} npm run regression"
+
+    environment {
+        PLAYWRIGHT_BROWSERS_PATH = '0'
+    }
+
+    stages {
+        stage('Install Dependencies') {
+            steps {
+                bat 'npm install'
+            }
         }
-      }
-    }
 
-    stage('Publish Report') {
-      steps {
-        // Lưu artifact
-        archiveArtifacts artifacts: 'playwright-report/**, allure-results/**', allowEmptyArchive: true
+        stage('Install Playwright Browsers') {
+            steps {
+                bat '''
+                    set PLAYWRIGHT_BROWSERS_PATH=0
+                    npx playwright install
+                '''
+            }
+        }
 
-        // Tạo báo cáo Allure
-        allure([
-            results: [[path: 'allure-results']],
-            reportBuildPolicy: 'ALWAYS'
-        ])
-      }
+        stage('Run Regression Tests') {
+            steps {
+                script {
+                    def url = ''
+                    if (params.TARGET_ENV == 'local') {
+                        url = 'http://localhost/orangehrm/web/index.php/auth/login'
+                    } else if (params.TARGET_ENV == 'staging') {
+                        url = 'http://staging-server.company.com'
+                    } else {
+                        url = 'http://prod-server.company.com'
+                    }
+                    bat "npx cross-env BASE_URL=${url} npm run regression"
+                }
+            }
+        }
+
+        stage('Publish Report') {
+            steps {
+                // Lưu artifact
+                archiveArtifacts artifacts: 'playwright-report/**, allure-results/**', allowEmptyArchive: true
+
+                // Tạo báo cáo Allure
+                allure([
+                    results: [[path: 'allure-results']],
+                    reportBuildPolicy: 'ALWAYS'
+                ])
+            }
+        }
     }
 
     post {
-      always {
-        archiveArtifacts artifacts: 'playwright-report/**, allure-results/**', allowEmptyArchive: true
-      }
+        always {
+            archiveArtifacts artifacts: 'playwright-report/**, allure-results/**', allowEmptyArchive: true
+        }
     }
-  }
 }
