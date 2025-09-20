@@ -14,19 +14,11 @@ pipeline {
     }
 
     environment {
-        // Dùng chính NodeJS từ Jenkins, cộng thêm npm binaries
-        PATH = "${tool 'NodeJS 18'}\\node_modules\\.bin;${env.PATH}"
         PLAYWRIGHT_BROWSERS_PATH = '0'
+        PATH = "${env.PATH};C:\\Users\\admin\\AppData\\Roaming\\npm" // để npx allure chạy được
     }
 
     stages {
-        stage('Check Node & NPM') {
-            steps {
-                bat 'node -v'
-                bat 'npm -v'
-            }
-        }
-
         stage('Install Dependencies') {
             steps {
                 bat 'npm install'
@@ -35,8 +27,10 @@ pipeline {
 
         stage('Install Playwright Browsers') {
             steps {
-                // Không cần set lại biến, đã khai báo trong environment
-                bat 'npx playwright install'
+                bat '''
+                    set PLAYWRIGHT_BROWSERS_PATH=0
+                    npx playwright install
+                '''
             }
         }
 
@@ -61,9 +55,8 @@ pipeline {
 
         stage('Generate Allure Report') {
             steps {
-                // Tạo report HTML
+                // Tạo report HTML từ kết quả allure-results
                 bat 'npx allure generate allure-results --clean -o allure-report'
-                
                 // Kiểm tra nội dung thư mục
                 bat 'dir allure-report'
             }
@@ -72,13 +65,14 @@ pipeline {
 
     post {
         always {
-            // Lưu artifact
+            // Lưu Playwright + Allure report
             archiveArtifacts artifacts: 'playwright-report/**, allure-results/**, allure-report/**', allowEmptyArchive: true
 
-            // Hiển thị Allure report trên Jenkins bằng plugin
+            // Hiển thị Allure report trực tiếp trên Jenkins
             allure([
                 results: [[path: 'allure-results']],
-                reportBuildPolicy: 'ALWAYS'
+                reportBuildPolicy: 'ALWAYS',
+                toolName: 'Allure' // tên đã khai báo trong Jenkins
             ])
         }
     }
