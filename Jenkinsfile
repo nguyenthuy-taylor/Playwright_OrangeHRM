@@ -15,6 +15,8 @@ pipeline {
 
     environment {
         PLAYWRIGHT_BROWSERS_PATH = '0'
+        // Thêm đường dẫn allure npm vào PATH để plugin Jenkins nhận
+        PATH = "${env.PATH};C:\\Users\\admin\\AppData\\Roaming\\npm"
     }
 
     stages {
@@ -35,8 +37,8 @@ pipeline {
 
         stage('Run Regression Tests') {
             steps {
-                // Dùng catchError để pipeline tiếp tục chạy nếu test fail
-                catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                // catchError để pipeline tiếp tục chạy nếu có test fail
+                catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE') {
                     script {
                         def url = ''
                         if (params.TARGET_ENV == 'local') {
@@ -51,18 +53,26 @@ pipeline {
                 }
             }
         }
+
+        stage('Publish Report') {
+            steps {
+                // Lưu artifact Playwright + Allure
+                archiveArtifacts artifacts: 'playwright-report/**, allure-results/**', allowEmptyArchive: true
+
+                // Tạo Allure report
+                allure([
+                    includeProperties: false,
+                    results: [[path: 'allure-results']],
+                    reportBuildPolicy: 'ALWAYS'
+                ])
+            }
+        }
     }
 
     post {
         always {
-            // Lưu artifact Playwright + Allure
+            // Đảm bảo artifact được lưu ngay cả khi stage thất bại
             archiveArtifacts artifacts: 'playwright-report/**, allure-results/**', allowEmptyArchive: true
-
-            // Generate Allure report
-            allure([
-                results: [[path: 'allure-results']],
-                reportBuildPolicy: 'ALWAYS'
-            ])
         }
     }
 }
