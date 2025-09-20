@@ -57,8 +57,20 @@ pipeline {
             steps {
                 // Tạo report HTML từ kết quả allure-results
                 bat 'npx allure generate allure-results --clean -o allure-report'
-                // Optional: mở report trực tiếp (trên Windows sẽ mở trình duyệt)
-                // bat 'npx allure open allure-report'
+            }
+        }
+
+        stage('Publish Allure HTML Report') {
+            steps {
+                // Dùng HTML Publisher để mở trực tiếp trên Jenkins
+                publishHTML(target: [
+                    allowMissing: false,
+                    alwaysLinkToLastBuild: true,
+                    keepAll: true,
+                    reportDir: 'allure-report',
+                    reportFiles: 'index.html',
+                    reportName: 'Allure Report'
+                ])
             }
         }
     }
