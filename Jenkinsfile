@@ -48,8 +48,8 @@ pipeline {
       }
     }
 
-  stage('Publish Report') {
-    steps {
+    stage('Publish Report') {
+      steps {
         // Lưu artifact
         archiveArtifacts artifacts: 'playwright-report/**, allure-results/**', allowEmptyArchive: true
 
@@ -58,12 +58,13 @@ pipeline {
             results: [[path: 'allure-results']],
             reportBuildPolicy: 'ALWAYS'
         ])
+      }
     }
-  }
 
-  post {
-    always {
-      archiveArtifacts artifacts: 'playwright-report/**, allure-results/**', allowEmptyArchive: true
+    post {
+      always {
+        archiveArtifacts artifacts: 'playwright-report/**, allure-results/**', allowEmptyArchive: true
+      }
     }
   }
-  }
+}
