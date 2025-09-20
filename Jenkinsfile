@@ -48,10 +48,16 @@ pipeline {
       }
     }
 
-    stage('Publish HTML Report') {
-      steps {
+  stage('Publish Report') {
+    steps {
+        // Lưu artifact
         archiveArtifacts artifacts: 'playwright-report/**, allure-results/**', allowEmptyArchive: true
-      }
+
+        // Tạo báo cáo Allure
+        allure([
+            results: [[path: 'allure-results']],
+            reportBuildPolicy: 'ALWAYS'
+        ])
     }
   }
 
@@ -60,4 +66,4 @@ pipeline {
       archiveArtifacts artifacts: 'playwright-report/**, allure-results/**', allowEmptyArchive: true
     }
   }
-}
+  }
