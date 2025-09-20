@@ -63,25 +63,16 @@ pipeline {
       }
     }
 
-        stage('Publish Allure HTML Report') {
-      steps {
-        // Dùng HTML Publisher để mở trực tiếp trên Jenkins
-        publishHTML(target: [
-                    allowMissing: false,
-                    alwaysLinkToLastBuild: true,
-                    keepAll: true,
-                    reportDir: 'allure-report',
-                    reportFiles: 'index.html',
-                    reportName: 'Allure Report'
-                ])
-      }
-        }
-    }
-
     post {
-        always {
-      // Lưu Playwright + Allure report
-      archiveArtifacts artifacts: 'playwright-report/**, allure-results/**, allure-report/**', allowEmptyArchive: true
+       always {
+            // Lưu artifact
+            archiveArtifacts artifacts: 'playwright-report/**, allure-results/**, allure-report/**', allowEmptyArchive: true
+
+            // Dùng plugin Allure để hiển thị report trực tiếp trên Jenkins
+            allure([
+                results: [[path: 'allure-results']],
+                reportBuildPolicy: 'ALWAYS'
+            ])
         }
     }
 }
