@@ -35,37 +35,34 @@ pipeline {
 
         stage('Run Regression Tests') {
             steps {
-                script {
-                    def url = ''
-                    if (params.TARGET_ENV == 'local') {
-                        url = 'http://localhost/orangehrm/web/index.php/auth/login'
-                    } else if (params.TARGET_ENV == 'staging') {
-                        url = 'http://staging-server.company.com'
-                    } else {
-                        url = 'http://prod-server.company.com'
+                // Dùng catchError để pipeline tiếp tục chạy nếu test fail
+                catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                    script {
+                        def url = ''
+                        if (params.TARGET_ENV == 'local') {
+                            url = 'http://localhost/orangehrm/web/index.php/auth/login'
+                        } else if (params.TARGET_ENV == 'staging') {
+                            url = 'http://staging-server.company.com'
+                        } else {
+                            url = 'http://prod-server.company.com'
+                        }
+                        bat "npx cross-env BASE_URL=${url} npm run regression"
                     }
-                    bat "npx cross-env BASE_URL=${url} npm run regression"
                 }
-            }
-        }
-
-        stage('Publish Report') {
-            steps {
-                // Lưu artifact
-                archiveArtifacts artifacts: 'playwright-report/**, allure-results/**', allowEmptyArchive: true
-
-                // Tạo báo cáo Allure
-                allure([
-                    results: [[path: 'allure-results']],
-                    reportBuildPolicy: 'ALWAYS'
-                ])
             }
         }
     }
 
     post {
         always {
+            // Lưu artifact Playwright + Allure
             archiveArtifacts artifacts: 'playwright-report/**, allure-results/**', allowEmptyArchive: true
+
+            // Generate Allure report
+            allure([
+                results: [[path: 'allure-results']],
+                reportBuildPolicy: 'ALWAYS'
+            ])
         }
     }
 }
