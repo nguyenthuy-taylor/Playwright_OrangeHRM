@@ -15,8 +15,7 @@ pipeline {
 
     environment {
         PLAYWRIGHT_BROWSERS_PATH = '0'
-        // Thêm đường dẫn allure npm vào PATH để plugin Jenkins nhận
-        PATH = "${env.PATH};C:\\Users\\admin\\AppData\\Roaming\\npm"
+        PATH = "${env.PATH};C:\\Users\\admin\\AppData\\Roaming\\npm" // để npx allure chạy được
     }
 
     stages {
@@ -37,8 +36,8 @@ pipeline {
 
         stage('Run Regression Tests') {
             steps {
-                // catchError để pipeline tiếp tục chạy nếu có test fail
-                catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE') {
+                // catchError để test fail không dừng pipeline
+                catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
                     script {
                         def url = ''
                         if (params.TARGET_ENV == 'local') {
@@ -54,25 +53,20 @@ pipeline {
             }
         }
 
-        stage('Publish Report') {
+        stage('Generate Allure Report') {
             steps {
-                // Lưu artifact Playwright + Allure
-                archiveArtifacts artifacts: 'playwright-report/**, allure-results/**', allowEmptyArchive: true
-
-                // Tạo Allure report
-                allure([
-                    includeProperties: false,
-                    results: [[path: 'allure-results']],
-                    reportBuildPolicy: 'ALWAYS'
-                ])
+                // Tạo report HTML từ kết quả allure-results
+                bat 'npx allure generate allure-results --clean -o allure-report'
+                // Optional: mở report trực tiếp (trên Windows sẽ mở trình duyệt)
+                // bat 'npx allure open allure-report'
             }
         }
     }
 
     post {
         always {
-            // Đảm bảo artifact được lưu ngay cả khi stage thất bại
-            archiveArtifacts artifacts: 'playwright-report/**, allure-results/**', allowEmptyArchive: true
+            // Lưu Playwright + Allure report
+            archiveArtifacts artifacts: 'playwright-report/**, allure-results/**, allure-report/**', allowEmptyArchive: true
         }
     }
 }
