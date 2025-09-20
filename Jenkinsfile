@@ -71,8 +71,7 @@ pipeline {
             // Hiển thị Allure report trực tiếp trên Jenkins
             allure([
                 results: [[path: 'allure-results']],
-                reportBuildPolicy: 'ALWAYS',
-                toolName: 'Allure' // tên đã khai báo trong Jenkins
+                reportBuildPolicy: 'ALWAYS'
             ])
         }
     }
