@@ -20,7 +20,7 @@ pipeline {
   stages {
     stage('Install Dependencies') {
       steps {
-        sh 'npm install'
+        bat 'npm install'
       }
     }
 
@@ -44,14 +44,14 @@ pipeline {
           } else {
             url = "http://prod-server.company.com"
           }
-          sh "BASE_URL=${url} npm run regression"
+          bat "BASE_URL=${url} npm run regression"
         }
       }
     }
 
-    stage('Publish HTML Report') {
+    stage('Publibat HTML Report') {
       steps {
-        sh 'npx playwright show-report'
+        bat 'npx playwright batow-report'
       }
     }
   }
