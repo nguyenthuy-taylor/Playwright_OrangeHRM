@@ -14,61 +14,68 @@ pipeline {
     }
 
     environment {
+        // Dùng chính NodeJS từ Jenkins, cộng thêm npm binaries
+        PATH = "${tool 'NodeJS 18'}\\node_modules\\.bin;${env.PATH}"
         PLAYWRIGHT_BROWSERS_PATH = '0'
-        PATH = "${env.PATH};C:\\Users\\admin\\AppData\\Roaming\\npm" // để npx allure chạy được
     }
 
     stages {
+        stage('Check Node & NPM') {
+            steps {
+                bat 'node -v'
+                bat 'npm -v'
+            }
+        }
+
         stage('Install Dependencies') {
-      steps {
-        bat 'npm install'
-      }
+            steps {
+                bat 'npm install'
+            }
         }
 
         stage('Install Playwright Browsers') {
-      steps {
-        bat '''
-                    set PLAYWRIGHT_BROWSERS_PATH=0
-                    npx playwright install
-                '''
-      }
+            steps {
+                // Không cần set lại biến, đã khai báo trong environment
+                bat 'npx playwright install'
+            }
         }
 
         stage('Run Regression Tests') {
-      steps {
-        // catchError để test fail không dừng pipeline
-        catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-          script {
-            def url = ''
-            if (params.TARGET_ENV == 'local') {
-              url = 'http://localhost/orangehrm/web/index.php/auth/login'
+            steps {
+                catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                    script {
+                        def url = ''
+                        if (params.TARGET_ENV == 'local') {
+                            url = 'http://localhost/orangehrm/web/index.php/auth/login'
                         } else if (params.TARGET_ENV == 'staging') {
-              url = 'http://staging-server.company.com'
+                            url = 'http://staging-server.company.com'
                         } else {
-              url = 'http://prod-server.company.com'
+                            url = 'http://prod-server.company.com'
+                        }
+
+                        bat "npx cross-env BASE_URL=${url} npm run regression"
+                    }
+                }
             }
-            bat "npx cross-env BASE_URL=${url} npm run regression"
-          }
-        }
-      }
         }
 
-    stage('Generate Allure Report') {
-      steps {
-        // Tạo report HTML từ kết quả allure-results
-        bat 'npx allure generate allure-results --clean -o allure-report'
-
-        // Kiểm tra nội dung thư mục
-        bat 'dir allure-report'
-      }
+        stage('Generate Allure Report') {
+            steps {
+                // Tạo report HTML
+                bat 'npx allure generate allure-results --clean -o allure-report'
+                
+                // Kiểm tra nội dung thư mục
+                bat 'dir allure-report'
+            }
+        }
     }
 
     post {
-       always {
+        always {
             // Lưu artifact
             archiveArtifacts artifacts: 'playwright-report/**, allure-results/**, allure-report/**', allowEmptyArchive: true
 
-            // Dùng plugin Allure để hiển thị report trực tiếp trên Jenkins
+            // Hiển thị Allure report trên Jenkins bằng plugin
             allure([
                 results: [[path: 'allure-results']],
                 reportBuildPolicy: 'ALWAYS'
