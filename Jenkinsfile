@@ -55,7 +55,7 @@ pipeline {
 
         stage('Generate Allure Report') {
             steps {
-                bat 'allure generate allure-results --clean -o allure-report'
+                bat 'npx allure generate allure-results --clean -o allure-report'
                 bat 'dir allure-report'
             }
         }
@@ -65,9 +65,12 @@ pipeline {
         always {
             archiveArtifacts artifacts: 'playwright-report/**, allure-results/**, allure-report/**', allowEmptyArchive: true
 
-            // Plugin Allure Report (mới)
+            // Allure Jenkins Plugin (trỏ đúng "Name" trong Global Tool Configuration)
             allure([
+                includeProperties: false,
+                jdk: '',
                 results: [[path: 'allure-results']],
+                commandline: 'allure',   // <-- Name đã khai báo trong Jenkins Global Tool Configuration
                 reportBuildPolicy: 'ALWAYS'
             ])
         }
