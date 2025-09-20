@@ -10,11 +10,11 @@ pipeline {
   }
 
   tools {
-    nodejs "NodeJS 18"
+    nodejs 'NodeJS 18'
   }
 
   environment {
-    PLAYWRIGHT_BROWSERS_PATH = "0"
+    PLAYWRIGHT_BROWSERS_PATH = '0'
   }
 
   stages {
@@ -32,33 +32,32 @@ pipeline {
         '''
       }
     }
-
     stage('Run Regression Tests') {
       steps {
         script {
-          def url = ""
-          if (params.TARGET_ENV == "local") {
-            url = "http://localhost/orangehrm/web/index.php/auth/login"
-          } else if (params.TARGET_ENV == "staging") {
-            url = "http://localhost/orangehrm/web/index.php/auth/login"
-          } else {
-            url = "http://prod-server.company.com"
+          def url = ''
+          if (params.TARGET_ENV == 'local') {
+            url = 'http://localhost/orangehrm/web/index.php/auth/login'
+      } else if (params.TARGET_ENV == 'staging') {
+            url = 'http://staging-server.company.com'
+      } else {
+            url = 'http://prod-server.company.com'
           }
-          bat "BASE_URL=${url} npm run regression"
+          bat "npx cross-env BASE_URL=${url} npm run regression"
         }
       }
     }
 
     stage('Publibat HTML Report') {
       steps {
-        bat 'npx playwright batow-report'
+        bat 'npx playwright show-report'
       }
     }
   }
 
   post {
     always {
-      archiveArtifacts artifacts: 'playwright-report/**', allowEmptyArchive: true
+      archiveArtifacts artifacts: 'playwright-report/**, allure-results/**', allowEmptyArchive: true
     }
   }
 }

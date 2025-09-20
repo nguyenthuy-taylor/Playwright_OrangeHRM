@@ -6,7 +6,7 @@
   "scripts": {
     "test": "npx playwright test",
     "debug": "npx playwright test --debug",
-    "report": "npx playwright show-report", 
+    "report": "npx playwright show-report",
     "regression": "npx playwright test tests --grep \"@regression\" --project=chromium  --reporter=html"
   },
   "keywords": [],
@@ -17,7 +17,8 @@
     "@faker-js/faker": "^9.9.0",
     "@playwright/test": "^1.55.0",
     "@types/node": "^24.3.0",
-    "allure-playwright": "^3.3.3"
+    "allure-playwright": "^3.3.3",
+    "cross-env": "^10.0.0"
   },
   "dependencies": {
     "exceljs": "^4.4.0"
