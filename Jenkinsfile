@@ -15,7 +15,7 @@ pipeline {
 
     environment {
         PLAYWRIGHT_BROWSERS_PATH = '0'
-        PATH = "${env.PATH};C:\\Users\\admin\\AppData\\Roaming\\npm" // để npx allure chạy được
+        PATH = "${env.PATH};C:\\Users\\admin\\AppData\\Roaming\\npm"
     }
 
     stages {
@@ -55,9 +55,7 @@ pipeline {
 
         stage('Generate Allure Report') {
             steps {
-                // Tạo report HTML từ kết quả allure-results
-                bat 'npx allure generate allure-results --clean -o allure-report'
-                // Kiểm tra nội dung thư mục
+                bat 'allure generate allure-results --clean -o allure-report'
                 bat 'dir allure-report'
             }
         }
@@ -65,10 +63,9 @@ pipeline {
 
     post {
         always {
-            // Lưu Playwright + Allure report
             archiveArtifacts artifacts: 'playwright-report/**, allure-results/**, allure-report/**', allowEmptyArchive: true
 
-            // Hiển thị Allure report trực tiếp trên Jenkins
+            // Plugin Allure Report (mới)
             allure([
                 results: [[path: 'allure-results']],
                 reportBuildPolicy: 'ALWAYS'
