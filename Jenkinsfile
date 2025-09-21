@@ -65,12 +65,12 @@ pipeline {
         always {
             archiveArtifacts artifacts: 'playwright-report/**, allure-results/**, allure-report/**', allowEmptyArchive: true
 
-            // Allure Jenkins Plugin (trỏ đúng "Name" trong Global Tool Configuration)
+            // Allure Jenkins Plugin 
             allure([
                 includeProperties: false,
                 jdk: '',
                 results: [[path: 'allure-results']],
-                commandline: 'allure',   // <-- Name đã khai báo trong Jenkins Global Tool Configuration
+                commandline: 'allure',   
                 reportBuildPolicy: 'ALWAYS'
             ])
         }
