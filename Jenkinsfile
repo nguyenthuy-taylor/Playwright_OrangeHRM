@@ -63,25 +63,14 @@ pipeline {
 
     post {
         always {
-            publishHTML([
-            allowMissing: false,
-            alwaysLinkToLastBuild: true,
-            keepAll: true,
-            reportDir: 'allure-report',
-            reportFiles: 'index.html',
-            reportName: 'Allure Report',
-            reportTitles: 'Allure Report'   // hiển thị link riêng, bấm vào mở ngoài iframe
-        ])
-            publishHTML([
-            allowMissing: false,
-            alwaysLinkToLastBuild: true,
-            keepAll: true,
-            reportDir: 'playwright-report',
-            reportFiles: 'index.html',
-            reportName: 'Playwright Report',
-            reportTitles: 'Playwright Report'
-        ])
+            // Archive toàn bộ reports để mở trực tiếp qua artifact
             archiveArtifacts artifacts: 'playwright-report/**, allure-results/**, allure-report/**', allowEmptyArchive: true
+
+            script {
+                echo 'Open directly without sandbox error:'
+                echo "Playwright Report: ${env.BUILD_URL}artifact/playwright-report/index.html"
+                echo "Allure Report: ${env.BUILD_URL}artifact/allure-report/index.html"
+            }
         }
     }
 }
