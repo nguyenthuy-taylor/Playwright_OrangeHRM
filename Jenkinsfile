@@ -64,16 +64,22 @@ pipeline {
     post {
         always {
             publishHTML([
-            allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true,
-            reportDir: 'playwright-report',
-            reportFiles: 'index.html',
-            reportName: 'Playwright Test Report'
-        ])
-            publishHTML([
-            allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true,
+            allowMissing: false,
+            alwaysLinkToLastBuild: true,
+            keepAll: true,
             reportDir: 'allure-report',
             reportFiles: 'index.html',
-            reportName: 'Allure Report'
+            reportName: 'Allure Report',
+            reportTitles: 'Allure Report'   // hiển thị link riêng, bấm vào mở ngoài iframe
+        ])
+            publishHTML([
+            allowMissing: false,
+            alwaysLinkToLastBuild: true,
+            keepAll: true,
+            reportDir: 'playwright-report',
+            reportFiles: 'index.html',
+            reportName: 'Playwright Report',
+            reportTitles: 'Playwright Report'
         ])
             archiveArtifacts artifacts: 'playwright-report/**, allure-results/**, allure-report/**', allowEmptyArchive: true
         }
