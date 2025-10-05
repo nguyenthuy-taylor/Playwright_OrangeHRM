@@ -21,7 +21,7 @@ export class NotificationHelper {
         return true;
     }
 
-    static async isLoadingPresent(page, timeout = 5000) {
+    static async isLoadingPresent(page, timeout = 3000) {
         const loadingIcon = page.locator(NotificationHelper.loadingIcon);
         try {
             await loadingIcon.waitFor({ state: 'visible', timeout });

@@ -8,6 +8,7 @@ import { NotificationHelper } from '../../helper/NotificationHelper';
 import { setupTestUser } from '../../services/userService';
 
 const userRole = ['Admin', 'ESS'];
+const deleteUserName = 'user_abdullah.macgyver_MaZT';
 let newUserData;
 test.describe('Admin Page Tests', () => {
     test.beforeAll(async ({ loggedInPage }) => {
@@ -19,7 +20,7 @@ test.describe('Admin Page Tests', () => {
         const userManagementPage = await navigateToUserManagementItem(loggedInPage, 'User Management', userManagamentDropdownItems.USERS);
         await userManagementPage.selectUserRoleOption(userRole[0]);
         await userManagementPage.page.waitForTimeout(2000);
-        await userManagementPage.searchAndSelectAnEmployeeName('chung', 'chung thuy failed')
+        await userManagementPage.searchAndSelectAnEmployeeName('chung', 'chung thuy')
         await userManagementPage.clickToSearchButton();
         expect(await NotificationHelper.isLoadingFired(loggedInPage)).toBeTruthy();
         await userManagementPage.verifyReturnResults(newUserData.userName, newUserData.userRole, newUserData.employeeName, newUserData.status)
@@ -28,7 +29,24 @@ test.describe('Admin Page Tests', () => {
 
 
 
-test('[@smoke] TC_00: Add a new System Users', async ({ loggedInPage }) => {
+test('[@smoke] TC_002: Add a new System Users', async ({ loggedInPage }) => {
     await setupTestUser(loggedInPage);
 });
 
+test('[@smoke] TC_003: Delete an Admin System Users', async ({ loggedInPage }) => {
+    await navigateMainMenuItem(loggedInPage, mainNavigationOption.ADMIN);
+    const userManagementPage = await navigateToUserManagementItem(loggedInPage, 'User Management', userManagamentDropdownItems.USERS);
+    await userManagementPage.selectUserRoleOption(userRole[0]);
+    await userManagementPage.selectUserName(deleteUserName);
+    await userManagementPage.clickToSearchButton();
+    await userManagementPage.deleteAnUser();
+
+
+
+
+
+
+
+
+
+});

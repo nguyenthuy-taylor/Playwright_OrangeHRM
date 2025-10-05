@@ -24,7 +24,13 @@ export class UserManagementPage extends BasePage {
         this.addUserPasswordTextbox = page.locator("//label[normalize-space()='Password']/parent::div/following-sibling::div/input")
         this.addUserConfirmPasswordTextbox = page.locator("//label[normalize-space()='Confirm Password']/parent::div/following-sibling::div/input")
         this.addNewSaveButton = page.locator('button.orangehrm-left-space');
+        this.deleteIcon  = page.locator('button i.bi-trash');
+        this.dialogContainer = page.locator('div[role="dialog"] div.oxd-dialog-container-default')
 
+    }
+
+    async selectUserName(userName) {
+        await this.addUserUsernameTextbox.fill(userName);
     }
 
     async selectUserRoleOption(role) {
@@ -35,7 +41,8 @@ export class UserManagementPage extends BasePage {
     }
     async clickToSearchButton() {
         await this.searchButton.click();
-        // await NotificationHelper.isLoadingFired(page);
+        await NotificationHelper.isLoadingPresent(this.page);
+        await NotificationHelper.isLoadingPresent(this.page);
     }
     async verifyReturnResults(username, userRole, employeeName, status) {
         const rows = await this.rowList;
@@ -99,6 +106,16 @@ export class UserManagementPage extends BasePage {
         console.log('Visible:', await this.addNewSaveButton.isVisible());
         console.log('Enabled:', await this.addNewSaveButton.isEnabled());
         await this.addNewSaveButton.click();
+        await NotificationHelper.isLoadingPresent(this.page);
+        await NotificationHelper.isLoadingFired(this.page);
+        await NotificationHelper.isSuccessMessageDisplayed(this.page);
+    }
+
+    async deleteAnUser() {
+        await this.deleteIcon.first().click();
+        await this.dialogContainer.waitFor({ state: 'visible', timeout: 3000 });
+        const confirmButton = this.dialogContainer.locator('button.oxd-button--label-danger');
+        await confirmButton.click();
         await NotificationHelper.isLoadingPresent(this.page);
         await NotificationHelper.isLoadingFired(this.page);
         await NotificationHelper.isSuccessMessageDisplayed(this.page);

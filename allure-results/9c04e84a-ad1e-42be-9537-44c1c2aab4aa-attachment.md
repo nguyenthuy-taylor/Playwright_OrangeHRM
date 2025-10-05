@@ -1,0 +1,202 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e3]:
+  - navigation [ref=e5]:
+    - generic [ref=e7]:
+      - link "Automation Automation Practice":
+        - /url: ""
+        - generic [ref=e8] [cursor=pointer]:
+          - heading "Automation" [level=3] [ref=e9] [cursor=pointer]
+          - paragraph [ref=e10] [cursor=pointer]: Automation Practice
+    - text: 
+    - link "London QA Meetup @Rahul Shetty - Limited Seats! Book Now!" [ref=e11] [cursor=pointer]:
+      - /url: https://qasummit.org/
+    - list [ref=e12]:
+      - listitem [ref=e13] [cursor=pointer]:
+        - button " HOME" [ref=e14] [cursor=pointer]:
+          - generic [ref=e15] [cursor=pointer]: 
+          - text: HOME
+      - listitem
+      - listitem [ref=e16] [cursor=pointer]:
+        - button " ORDERS" [ref=e17] [cursor=pointer]:
+          - generic [ref=e18] [cursor=pointer]: 
+          - text: ORDERS
+      - listitem [ref=e19] [cursor=pointer]:
+        - button " Cart" [ref=e20] [cursor=pointer]:
+          - generic [ref=e21] [cursor=pointer]: 
+          - text: Cart
+      - listitem [ref=e22] [cursor=pointer]:
+        - button "Sign Out" [ref=e23] [cursor=pointer]:
+          - generic [ref=e24] [cursor=pointer]: 
+          - text: Sign Out
+  - text:    
+  - generic [ref=e25]:
+    - paragraph [ref=e26]:
+      - text: Home |
+      - generic [ref=e27]: Search
+    - heading "Filters" [level=4] [ref=e29]
+    - generic [ref=e30]:
+      - textbox "search" [ref=e32]
+      - generic [ref=e33]:
+        - heading "Price Range" [level=6] [ref=e34]
+        - generic [ref=e35]:
+          - textbox "Min Price" [ref=e37]
+          - textbox "Max Price" [ref=e39]
+      - generic [ref=e40]:
+        - heading "Categories" [level=6] [ref=e41]
+        - generic [ref=e43]: 
+        - generic [ref=e44]:
+          - checkbox [ref=e45]
+          - generic [ref=e46]: fashion
+        - generic [ref=e47]:
+          - checkbox [ref=e48]
+          - generic [ref=e49]: electronics
+        - generic [ref=e50]:
+          - checkbox [ref=e51]
+          - generic [ref=e52]: household
+      - generic [ref=e53]:
+        - heading "Sub Categories" [level=6] [ref=e54]
+        - generic [ref=e56]: 
+        - generic [ref=e57]:
+          - checkbox [ref=e58]
+          - generic [ref=e59]: t-shirts
+        - generic [ref=e60]:
+          - checkbox [ref=e61]
+          - generic [ref=e62]: shirts
+        - generic [ref=e63]:
+          - checkbox [ref=e64]
+          - generic [ref=e65]: shoes
+        - generic [ref=e66]:
+          - checkbox [ref=e67]
+          - generic [ref=e68]: mobiles
+        - generic [ref=e69]:
+          - checkbox [ref=e70]
+          - generic [ref=e71]: laptops
+      - generic [ref=e72]:
+        - heading "Search For" [level=6] [ref=e73]
+        - generic [ref=e75]: 
+        - generic [ref=e76]:
+          - checkbox [ref=e77]
+          - generic [ref=e78]: men
+        - generic [ref=e79]:
+          - checkbox [ref=e80]
+          - generic [ref=e81]: women
+  - generic [ref=e82]:
+    - generic [ref=e83]:
+      - generic [ref=e84]:
+        - generic [ref=e85]: Showing 8 results |
+        - generic [ref=e86]: User can only see maximum 9 products on a page
+      - generic [ref=e87]:
+        - generic [ref=e89]:
+          - img [ref=e90]
+          - generic [ref=e91]:
+            - heading "ZARA COAT 3" [level=5] [ref=e92]:
+              - generic [ref=e93]: ZARA COAT 3
+            - generic [ref=e95]: $ 11500
+            - button "View" [ref=e96] [cursor=pointer]:
+              - generic [ref=e97] [cursor=pointer]: 
+              - text: View
+            - button " Add To Cart" [ref=e98] [cursor=pointer]:
+              - generic [ref=e99] [cursor=pointer]: 
+              - text: Add To Cart
+        - generic [ref=e101]:
+          - img [ref=e102]
+          - generic [ref=e103]:
+            - heading "ADIDAS ORIGINAL" [level=5] [ref=e104]:
+              - generic [ref=e105]: ADIDAS ORIGINAL
+            - generic [ref=e107]: $ 11500
+            - button "View" [ref=e108] [cursor=pointer]:
+              - generic [ref=e109] [cursor=pointer]: 
+              - text: View
+            - button " Add To Cart" [ref=e110] [cursor=pointer]:
+              - generic [ref=e111] [cursor=pointer]: 
+              - text: Add To Cart
+        - generic [ref=e113]:
+          - img [ref=e114]
+          - generic [ref=e115]:
+            - heading "iphone 13 pro" [level=5] [ref=e116]:
+              - generic [ref=e117]: iphone 13 pro
+            - generic [ref=e119]: $ 55000
+            - button "View" [ref=e120] [cursor=pointer]:
+              - generic [ref=e121] [cursor=pointer]: 
+              - text: View
+            - button " Add To Cart" [ref=e122] [cursor=pointer]:
+              - generic [ref=e123] [cursor=pointer]: 
+              - text: Add To Cart
+        - generic [ref=e125]:
+          - img [ref=e126]
+          - generic [ref=e127]:
+            - heading "Mutton-Automation" [level=5] [ref=e128]:
+              - generic [ref=e129]: Mutton-Automation
+            - generic [ref=e131]: $ 43455
+            - button "View" [ref=e132] [cursor=pointer]:
+              - generic [ref=e133] [cursor=pointer]: 
+              - text: View
+            - button " Add To Cart" [ref=e134] [cursor=pointer]:
+              - generic [ref=e135] [cursor=pointer]: 
+              - text: Add To Cart
+        - generic [ref=e137]:
+          - img [ref=e138]
+          - generic [ref=e139]:
+            - heading "Mutton-Automation" [level=5] [ref=e140]:
+              - generic [ref=e141]: Mutton-Automation
+            - generic [ref=e143]: $ 43455
+            - button "View" [ref=e144] [cursor=pointer]:
+              - generic [ref=e145] [cursor=pointer]: 
+              - text: View
+            - button " Add To Cart" [ref=e146] [cursor=pointer]:
+              - generic [ref=e147] [cursor=pointer]: 
+              - text: Add To Cart
+        - generic [ref=e149]:
+          - img [ref=e150]
+          - generic [ref=e151]:
+            - heading "Mutton-Automation" [level=5] [ref=e152]:
+              - generic [ref=e153]: Mutton-Automation
+            - generic [ref=e155]: $ 43455
+            - button "View" [ref=e156] [cursor=pointer]:
+              - generic [ref=e157] [cursor=pointer]: 
+              - text: View
+            - button " Add To Cart" [ref=e158] [cursor=pointer]:
+              - generic [ref=e159] [cursor=pointer]: 
+              - text: Add To Cart
+        - generic [ref=e161]:
+          - img [ref=e162]
+          - generic [ref=e163]:
+            - heading "Rest-Automation" [level=5] [ref=e164]:
+              - generic [ref=e165]: Rest-Automation
+            - generic [ref=e167]: $ 43455
+            - button "View" [ref=e168] [cursor=pointer]:
+              - generic [ref=e169] [cursor=pointer]: 
+              - text: View
+            - button " Add To Cart" [ref=e170] [cursor=pointer]:
+              - generic [ref=e171] [cursor=pointer]: 
+              - text: Add To Cart
+        - generic [ref=e173]:
+          - img [ref=e174]
+          - generic [ref=e175]:
+            - heading "Deepti-Laptop" [level=5] [ref=e176]:
+              - generic [ref=e177]: Deepti-Laptop
+            - generic [ref=e179]: $ 3456789
+            - button "View" [ref=e180] [cursor=pointer]:
+              - generic [ref=e181] [cursor=pointer]: 
+              - text: View
+            - button " Add To Cart" [ref=e182] [cursor=pointer]:
+              - generic [ref=e183] [cursor=pointer]: 
+              - text: Add To Cart
+    - list "Pagination" [ref=e188]:
+      - listitem [ref=e189]:
+        - text: «
+        - generic [ref=e190]:
+          - text: Previous
+          - generic [ref=e191]: page
+      - listitem [ref=e192]:
+        - generic [ref=e193]: You're on page
+        - generic [ref=e194]: "1"
+      - listitem [ref=e195]:
+        - generic [ref=e196]:
+          - text: Next
+          - generic [ref=e197]: page
+        - text: »
+  - generic [ref=e198]: Design and Developed By - Kunal Sharma
+```
