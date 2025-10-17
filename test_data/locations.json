@@ -1,0 +1,13 @@
+{
+    "baseLocation": {
+        "name": "Taylor Swift",
+        "city": "New York",
+        "stateProvince": "New York",
+        "zipPostalCode": "10001",
+        "countryName": "United States",
+        "phone": "1234567890",
+        "fax": "0987654321",
+        "address": "123 Main St, New York, NY",
+        "notes": "This is a test location."
+    }
+}

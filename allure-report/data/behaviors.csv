@@ -1,3 +1,6 @@
 "BROKEN","EPIC","FAILED","FEATURE","PASSED","SKIPPED","STORY","UNKNOWN"
-"0","","1","Claims","1","0","","0"
+"0","","11","","9","0","","0"
+"0","Admin","0","Job Management","1","0","Edit Job Title","0"
+"1","Admin","0","Job Management","0","0","Delete Job Title","0"
+"0","Admin","0","Job Management","1","0","Create Job Title","0"
 "0","","1","My Info Excel Upload","0","0","","0"

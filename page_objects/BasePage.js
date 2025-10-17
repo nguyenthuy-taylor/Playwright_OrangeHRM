@@ -103,4 +103,21 @@ export class BasePage {
 
 
     }
+
+    async waitForUrlContains(path, timeout = 5000) {
+        if (typeof path === 'string') {
+            // Dùng Playwright pattern **path** để match bất cứ gì trước/sau
+            await this.page.waitForURL(`**${path}**`, { timeout });
+        } else if (path instanceof RegExp) {
+            await this.page.waitForURL(path, { timeout });
+        } else {
+            throw new Error('Path must be a string or RegExp');
+        }
+    }
+
+
+    async fillElement(element, key) {
+        await element.fill(key);
+
+    }
 }

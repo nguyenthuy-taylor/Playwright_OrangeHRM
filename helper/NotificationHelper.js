@@ -1,3 +1,5 @@
+import { logInfo, logError, logWarn } from "../utils/logger";
+
 export class NotificationHelper {
     static successMessage = '.oxd-toast--success';
     static loadingIcon = '.oxd-loading-spinner';
@@ -21,15 +23,22 @@ export class NotificationHelper {
         return true;
     }
 
-    static async isLoadingPresent(page, timeout = 3000) {
+    static async waitForLoading(page, appearTimeout = 2000, disappearTimeout = 5000) {
         const loadingIcon = page.locator(NotificationHelper.loadingIcon);
         try {
-            await loadingIcon.waitFor({ state: 'visible', timeout });
-            console.log('[INFO] Loading icon đã hiển thị.');
-            return true; // Loading icon đã xuất hiện
-        } catch (error) {
-            console.error('[WARN] Loading icon chưa hiển thị sau thời gian chờ:', error);
-            return false; // Loading icon vẫn còn hiển thị sau thời gian chờ
+            // 1️⃣ Chờ loading xuất hiện (nếu không xuất hiện thì tiếp tục luôn)
+            await loadingIcon.waitFor({ state: 'visible', timeout: appearTimeout });
+            logInfo('[INFO] Loading icon đã hiển thị.');
+        } catch {
+            logInfo('[INFO] Loading icon không xuất hiện, bỏ qua bước chờ hiển thị.');
+        }
+
+        try {
+            // 2️⃣ Chờ loading biến mất
+            await loadingIcon.waitFor({ state: 'detached', timeout: disappearTimeout });
+            logInfo('[INFO] Loading icon đã biến mất.');
+        } catch {
+            logWarn('[WARN] Loading icon vẫn còn sau thời gian chờ.');
         }
     }
 

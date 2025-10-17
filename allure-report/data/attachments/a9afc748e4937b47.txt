@@ -1,0 +1,5 @@
+{
+  id: 6,
+  name: 'Service_1759716900793',
+  description: 'Event is added with DB'
+}
