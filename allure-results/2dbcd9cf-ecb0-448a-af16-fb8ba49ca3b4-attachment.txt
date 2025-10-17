@@ -1,2 +1,0 @@
-1
-File "automation_testing_download.xlsx" đã được tải về: downloads/automation_testing_download.xlsx

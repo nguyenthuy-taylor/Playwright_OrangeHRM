@@ -1,2 +1,0 @@
-undefined
-{ type: 'Invalid', message: 'Access denied. No token provided.' }
